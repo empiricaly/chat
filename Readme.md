@@ -14,7 +14,7 @@ import Chat from "@empirica/chat";
 <Chat messages={messages} stage={stage} player={player}/>;
 ```
 
-Chat expects 2 props:
+Chat expects 3 props:
 
 - messages: list of messages from Empirica stage.get("chat")
 - stage: a props from Empirica
