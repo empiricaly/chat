@@ -71,9 +71,141 @@ Author.propTypes = {
 };
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _Messages = _interopRequireDefault(require("./Messages"));
+
+require("./style.less");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var ChatLog =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChatLog, _React$Component);
+
+  function ChatLog(props) {
+    var _this;
+
+    _classCallCheck(this, ChatLog);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatLog).call(this, props));
+    _this.state = {
+      comment: ""
+    };
+    return _this;
+  }
+
+  _createClass(ChatLog, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      var el = e.currentTarget;
+      this.setState(_defineProperty({}, el.name, el.value));
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      var text = this.state.comment.trim();
+
+      if (text !== "") {
+        var _this$props = this.props,
+            stage = _this$props.stage,
+            player = _this$props.player;
+        stage.append("chat", {
+          text: text,
+          playerId: player._id
+        });
+        this.setState({
+          comment: ""
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var comment = this.state.comment;
+      var _this$props2 = this.props,
+          messages = _this$props2.messages,
+          player = _this$props2.player;
+      return _react["default"].createElement("div", {
+        className: "chat pt-card"
+      }, _react["default"].createElement(_Messages["default"], {
+        messages: messages,
+        player: player
+      }), _react["default"].createElement("form", {
+        onSubmit: function onSubmit(e) {
+          return _this2.handleSubmit(e);
+        }
+      }, _react["default"].createElement("div", {
+        className: "pt-control-group"
+      }, _react["default"].createElement("input", {
+        name: "comment",
+        type: "text",
+        className: "pt-input pt-fill",
+        placeholder: "Enter chat message",
+        value: comment,
+        onChange: function onChange(e) {
+          return _this2.handleChange(e);
+        },
+        autoComplete: "off"
+      }), _react["default"].createElement("button", {
+        type: "submit",
+        className: "pt-button pt-intent-primary"
+      }, "Send"))));
+    }
+  }]);
+
+  return ChatLog;
+}(_react["default"].Component);
+
+exports["default"] = ChatLog;
+ChatLog.propTypes = {
+  messages: _propTypes["default"].array.isRequired,
+  stage: _propTypes["default"].object.isRequired,
+  player: _propTypes["default"].object.isRequired
+};
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _Author = _interopRequireDefault(require("./Author"));
 
 require("./style.less");
 
@@ -117,7 +249,7 @@ function (_React$Component) {
       var self = this.props.self;
       return _react["default"].createElement("div", {
         className: "message"
-      }, _react["default"].createElement(Author, {
+      }, _react["default"].createElement(_Author["default"], {
         player: subject,
         self: self
       }), text);
@@ -127,8 +259,8 @@ function (_React$Component) {
   return Message;
 }(_react["default"].Component);
 
+exports["default"] = Message;
 Message.propTypes = {
-  key: _propTypes["default"].string.isRequired,
   message: _propTypes["default"].shape({
     text: _propTypes["default"].string.isRequired,
     subject: _propTypes["default"].object.isRequired
@@ -146,9 +278,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-require("./style.less");
-
 var _Message = _interopRequireDefault(require("./Message"));
+
+require("./style.less");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -240,15 +372,17 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-require("./style.less");
+var _ChatLog = _interopRequireDefault(require("./ChatLog"));
 
-var _Messages = _interopRequireDefault(require("./Messages"));
+var _ChatHeader = _interopRequireDefault(require("./ChatHeader"));
+
+var _ChatClosedButton = _interopRequireDefault(require("./ChatClosedButton"));
+
+require("./style.less");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -278,64 +412,45 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Chat).call(this, props));
     _this.state = {
-      comment: ""
+      isChatOpen: true
     };
     return _this;
   }
 
   _createClass(Chat, [{
-    key: "handleChange",
-    value: function handleChange(e) {
-      var el = e.currentTarget;
-      this.setState(_defineProperty({}, el.name, el.value));
-    }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      var text = this.state.comment.trim();
-
-      if (text !== "") {
-        var _this$props = this.props,
-            stage = _this$props.stage,
-            player = _this$props.player;
-        stage.append("chat", {
-          text: text,
-          playerId: player._id
-        });
-        this.setState({
-          comment: ""
-        });
-      }
+    key: "onClickButton",
+    value: function onClickButton() {
+      var isChatOpen = this.state.isChatOpen;
+      this.setState({
+        isChatOpen: !isChatOpen
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var comment = this.state.comment;
-      var _this$props2 = this.props,
-          messages = _this$props2.messages,
-          player = _this$props2.player;
+      var _this2 = this;
+
+      var _this$props = this.props,
+          messages = _this$props.messages,
+          stage = _this$props.stage,
+          player = _this$props.player;
       return _react["default"].createElement("div", {
-        className: "chat pt-card"
-      }, _react["default"].createElement(_Messages["default"], {
+        className: "empirica-chat-container"
+      }, isChatOpen ? _react["default"].createElement("div", {
+        className: "empirica-chat-open"
+      }, _react["default"].createElement(_ChatHeader["default"], {
+        onClickButton: function onClickButton() {
+          return _this2.onClickButton();
+        }
+      }), _react["default"].createElement(_ChatLog["default"], {
         messages: messages,
+        stage: stage,
         player: player
-      }), _react["default"].createElement("form", {
-        onSubmit: this.handleSubmit
-      }, _react["default"].createElement("div", {
-        className: "pt-control-group"
-      }, _react["default"].createElement("input", {
-        name: "comment",
-        type: "text",
-        className: "pt-input pt-fill",
-        placeholder: "Enter chat message",
-        value: comment,
-        onChange: this.handleChange,
-        autoComplete: "off"
-      }), _react["default"].createElement("button", {
-        type: "submit",
-        className: "pt-button pt-intent-primary"
-      }, "Send"))));
+      })) : _react["default"].createElement(_ChatClosedButton["default"], {
+        onClickButton: function onClickButton() {
+          return _this2.onClickButton();
+        }
+      }));
     }
   }]);
 

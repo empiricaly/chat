@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import './style.less'
+import Author from "./Author";
+import "./style.less";
 
-class Message extends React.Component {
+export default class Message extends React.Component {
   render() {
     const { text, subject } = this.props.message;
     const { self } = this.props;
@@ -17,7 +18,6 @@ class Message extends React.Component {
 }
 
 Message.propTypes = {
-  key: PropTypes.string.isRequired,
   message: PropTypes.shape({
     text: PropTypes.string.isRequired,
     subject: PropTypes.object.isRequired,

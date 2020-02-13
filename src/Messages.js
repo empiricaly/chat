@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import './style.less'
 import Message from "./Message";
+import "./style.less";
 
 const chatSound = new Audio("./assets/unsure.mp3");
 
@@ -19,7 +19,6 @@ export default class Messages extends React.Component {
   }
   render() {
     const { messages, player } = this.props;
-
     return (
       <div className="messages" ref={el => (this.messagesEl = el)}>
         {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}

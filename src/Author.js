@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import './style.less'
+import "./style.less";
 
 export default class Author extends React.Component {
   render() {

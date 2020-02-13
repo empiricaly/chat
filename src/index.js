@@ -1,58 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import ChatLog from "./ChatLog";
+import ChatHeader from "./ChatHeader";
+import ChatClosedButton from "./ChatClosedButton";
 import "./style.less";
-import Messages from "./Messages";
 
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: "",
+      isChatOpen: true,
     };
   }
 
-  handleChange(e) {
-    const el = e.currentTarget;
-    this.setState({ [el.name]: el.value });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const text = this.state.comment.trim();
-    if (text !== "") {
-      const { stage, player } = this.props;
-      stage.append("chat", {
-        text,
-        playerId: player._id,
-      });
-      this.setState({ comment: "" });
-    }
+  onClickButton() {
+    const { isChatOpen } = this.state;
+    this.setState({
+      isChatOpen: !isChatOpen,
+    });
   }
 
   render() {
-    const { comment } = this.state;
-    const { messages, player } = this.props;
+    const { messages, stage, player } = this.props;
 
     return (
-      <div className="chat pt-card">
-        <Messages messages={messages} player={player} />
-        <form onSubmit={this.handleSubmit}>
-          <div className="pt-control-group">
-            <input
-              name="comment"
-              type="text"
-              className="pt-input pt-fill"
-              placeholder="Enter chat message"
-              value={comment}
-              onChange={this.handleChange}
-              autoComplete="off"
-            />
-            <button type="submit" className="pt-button pt-intent-primary">
-              Send
-            </button>
+      <div className="empirica-chat-container">
+        {isChatOpen ? (
+          <div className="empirica-chat-open">
+            <ChatHeader onClickButton={() => this.onClickButton()} />
+            <ChatLog messages={messages} stage={stage} player={player} />
           </div>
-        </form>
+        ) : (
+          <ChatClosedButton onClickButton={() => this.onClickButton()} />
+        )}
       </div>
     );
   }
