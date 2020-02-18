@@ -6,13 +6,11 @@ import "./style.less";
 export default class Author extends React.Component {
   render() {
     const { player, self } = this.props;
-
+    const name = player.id.length > 10 ? player.id.slice(0, 10) : player.id;
     return (
       <div className="author">
         <img src={player.get("avatar")} />
-        <span className="name" style={{ color: player.get("nameColor") }}>
-          {self ? "You" : player.get("name")}
-        </span>
+        <span className="name">{self ? "You" : name}</span>
       </div>
     );
   }

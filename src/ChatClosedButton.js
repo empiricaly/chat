@@ -6,7 +6,7 @@ export default class ChatClosedButton extends React.Component {
     const { onClickButton } = this.props;
 
     return (
-      <div className="empirica-chat-close" onClick={() => onClickButton()}>
+      <div className="empirica-chat-close" onClick={onClickButton}>
         <span className="close-text">Chat Lobby</span>
       </div>
     );

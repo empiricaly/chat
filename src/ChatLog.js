@@ -12,12 +12,12 @@ export default class ChatLog extends React.Component {
     };
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     const el = e.currentTarget;
     this.setState({ [el.name]: el.value });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     const text = this.state.comment.trim();
     if (text !== "") {
@@ -37,7 +37,7 @@ export default class ChatLog extends React.Component {
     return (
       <div className="chat">
         <Messages messages={messages} player={player} />
-        <form onSubmit={e => this.handleSubmit(e)}>
+        <form onSubmit={this.handleSubmit}>
           <div className="chat-footer">
             <input
               name="comment"
@@ -45,7 +45,7 @@ export default class ChatLog extends React.Component {
               className="chat-input"
               placeholder="Enter chat message"
               value={comment}
-              onChange={e => this.handleChange(e)}
+              onChange={this.handleChange}
               autoComplete="off"
             />
             <button type="submit" className="chat-button-send">

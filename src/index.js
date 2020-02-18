@@ -14,7 +14,7 @@ export default class Chat extends React.Component {
     };
   }
 
-  onClickButton() {
+  onClickButton = () => {
     const { isChatOpen } = this.state;
     this.setState({
       isChatOpen: !isChatOpen,
@@ -22,18 +22,25 @@ export default class Chat extends React.Component {
   }
 
   render() {
-    const { messages, stage, player } = this.props;
+    const { scope, game, stage, player } = this.props;
     const { isChatOpen } = this.state;
+
+    const messages = stage.get("chat")
+      ? stage.get("chat").map(({ text, playerId }) => ({
+          text,
+          subject: game.players.find(p => p._id === playerId),
+        }))
+      : [];
 
     return (
       <div className="empirica-chat-container">
         {isChatOpen ? (
           <div className="empirica-chat-open">
-            <ChatHeader onClickButton={() => this.onClickButton()} />
+            <ChatHeader onClickButton={this.onClickButton} />
             <ChatLog messages={messages} stage={stage} player={player} />
           </div>
         ) : (
-          <ChatClosedButton onClickButton={() => this.onClickButton()} />
+          <ChatClosedButton onClickButton={this.onClickButton} />
         )}
       </div>
     );
@@ -41,7 +48,8 @@ export default class Chat extends React.Component {
 }
 
 Chat.propTypes = {
-  messages: PropTypes.array.isRequired,
-  stage: PropTypes.object.isRequired,
-  player: PropTypes.object.isRequired,
+  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
+  stage: PropTypes.object,
+  player: PropTypes.object,
+  game: PropTypes.object,
 };

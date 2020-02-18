@@ -8,7 +8,7 @@ export default class ChatHeader extends React.Component {
     return (
       <div className="header">
         <span className="title">Chat Lobby</span>
-        <span className="close-button" onClick={() => onClickButton()}>
+        <span className="close-button" onClick={onClickButton}>
           &times;
         </span>
       </div>

@@ -10,8 +10,7 @@ export default class Message extends React.Component {
     const { self } = this.props;
     return (
       <div className="message">
-        <Author player={subject} self={self} />
-        {text}
+        <Author player={subject} self={self} />: {text}
       </div>
     );
   }
