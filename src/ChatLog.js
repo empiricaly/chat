@@ -35,20 +35,20 @@ export default class ChatLog extends React.Component {
     const { messages, player } = this.props;
 
     return (
-      <div className="chat pt-card">
+      <div className="chat">
         <Messages messages={messages} player={player} />
         <form onSubmit={e => this.handleSubmit(e)}>
-          <div className="pt-control-group">
+          <div className="chat-footer">
             <input
               name="comment"
               type="text"
-              className="pt-input pt-fill"
+              className="chat-input"
               placeholder="Enter chat message"
               value={comment}
               onChange={e => this.handleChange(e)}
               autoComplete="off"
             />
-            <button type="submit" className="pt-button pt-intent-primary">
+            <button type="submit" className="chat-button-send">
               Send
             </button>
           </div>

@@ -2,9 +2,9 @@
   "name": "@empirica/chat",
   "version": "1.0.1",
   "description": "React component of a chat lobby for the Empirica experiment platform.",
-  "main": "index.js",
+  "main": "./build/index.js",
   "scripts": {
-    "build": "babel src --out-file index.js",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish": "npm publish --access public"
   },
@@ -28,12 +28,23 @@
     "@babel/cli": "^7.7.5",
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
-    "@babel/preset-react": "^7.7.4"
+    "@babel/preset-react": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "less-loader": "^5.0.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "style-loader": "^1.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "less": "^3.10.3"
   },
   "dependencies": {
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react": "^16.5.2"
   },
   "peerDependencies": {
+    "less-loader": "^5.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
   }

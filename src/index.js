@@ -23,6 +23,7 @@ export default class Chat extends React.Component {
 
   render() {
     const { messages, stage, player } = this.props;
+    const { isChatOpen } = this.state;
 
     return (
       <div className="empirica-chat-container">
