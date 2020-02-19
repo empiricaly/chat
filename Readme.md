@@ -1,21 +1,49 @@
-# Chat Lobby
+# Empirica Chat
 
-This package contains a React component for a Chat Lobby.
+This package contains a React component for a Chat in Lobby and Chat in Round for Empirica.
 
-## Usage
+## Usage Chat in Lobby
 
-Simply add the `<Chat>` component to your React tree.
+For Chat in Lobby, you can create custom lobby component and put the `ChatLobby` component on that component.
 
 ```js
-import Chat from "@empirica/chat";
+import { ChatLobby } from "@empirica/chat";
 
 //...
 
-<Chat messages={messages} stage={stage} player={player}/>;
+<ChatLobby gameLobby={gameLobby} player={player}/>;
+
 ```
 
-Chat expects 3 props:
+or, you can simply add the `ChatLobby` component like this on `client/main.js` file.
 
-- messages: list of messages from Empirica stage.get("chat")
+```js
+import { ChatLobby } from "@empirica/chat";
+
+//...
+
+Empirica.lobby(ChatLobby)
+
+```
+
+`ChatLobby` expects 2 props:
+
+- gameLobby: a props from Empirica
+- player: a props from Empirica
+
+## Usage Chat in Round
+
+```js
+import { ChatRound } from "@empirica/chat";
+
+//...
+
+<ChatRound stage={stage} game={game} player={player}/>;
+
+```
+
+`ChatRound` expects 3 props:
+
+- gameLobby: a props from Empirica
 - stage: a props from Empirica
 - player: a props from Empirica
