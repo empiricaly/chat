@@ -6,7 +6,7 @@ import ChatHeader from "./ChatHeader";
 import ChatClosedButton from "./ChatClosedButton";
 import "./style.less";
 
-export default class Chat extends React.Component {
+export class ChatRound extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,11 +19,11 @@ export default class Chat extends React.Component {
     this.setState({
       isChatOpen: !isChatOpen,
     });
-  }
+  };
 
   render() {
-    const { scope, game, stage, player } = this.props;
     const { isChatOpen } = this.state;
+    const { stage, game, player } = this.props;
 
     const messages = stage.get("chat")
       ? stage.get("chat").map(({ text, playerId }) => ({
@@ -36,20 +36,65 @@ export default class Chat extends React.Component {
       <div className="empirica-chat-container">
         {isChatOpen ? (
           <div className="empirica-chat-open">
-            <ChatHeader onClickButton={this.onClickButton} />
-            <ChatLog messages={messages} stage={stage} player={player} />
+            <ChatHeader scope="round" onClickButton={this.onClickButton} />
+            <ChatLog scope="round" messages={messages} stage={stage} player={player} />
           </div>
         ) : (
-          <ChatClosedButton onClickButton={this.onClickButton} />
+          <ChatClosedButton scope="round" onClickButton={this.onClickButton} />
         )}
       </div>
     );
   }
 }
 
-Chat.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
-  stage: PropTypes.object,
-  player: PropTypes.object,
-  game: PropTypes.object,
+ChatRound.propTypes = {
+  stage: PropTypes.object.isRequired,
+  player: PropTypes.object.isRequired,
+  game: PropTypes.object.isRequired,
+};
+
+export class ChatLobby extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isChatOpen: true,
+    };
+  }
+
+  onClickButton = () => {
+    const { isChatOpen } = this.state;
+    this.setState({
+      isChatOpen: !isChatOpen,
+    });
+  };
+
+  render() {
+    const { isChatOpen } = this.state;
+
+    const { gameLobby } = this.props;
+    const messages = gameLobby.get("chat")
+      ? gameLobby.get("chat").map(({ text, playerId }) => ({
+          text,
+          subject: gameLobby.queuedPlayerIds.find(p => p === playerId),
+        }))
+      : [];
+
+    return (
+      <div className="empirica-chat-container" style={{ marginTop: "5rem" }}>
+        {isChatOpen ? (
+          <div className="empirica-chat-open">
+            <ChatHeader scope="lobby" onClickButton={this.onClickButton} />
+            <ChatLog scope="lobby" messages={messages} {...this.props} />
+          </div>
+        ) : (
+          <ChatClosedButton scope="lobby" onClickButton={this.onClickButton} />
+        )}
+      </div>
+    );
+  }
+}
+
+ChatLobby.propTypes = {
+  player: PropTypes.object.isRequired,
+  gameLobby: PropTypes.object.isRequired,
 };

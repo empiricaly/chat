@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import Message from "./Message";
 import "./style.less";
 
-const chatSound = new Audio("./assets/unsure.mp3");
-
 export default class Messages extends React.Component {
   componentDidMount() {
     this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
@@ -14,27 +12,38 @@ export default class Messages extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.messages.length < this.props.messages.length) {
       this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
-      chatSound.play();
     }
   }
+
+  getSelf = (scope, message, player) => {
+    if (scope === "round") {
+      return message.subject ? player._id === message.subject._id : null;
+    }
+
+    return message.subject ? player._id === message.subject : null;
+  };
+
   render() {
-    const { messages, player } = this.props;
+    const { messages, player, scope } = this.props;
     return (
       <div className="messages" ref={el => (this.messagesEl = el)}>
         {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}
-        {messages.map((message, i) => (
-          <Message
-            key={i}
-            message={message}
-            self={message.subject ? player._id === message.subject._id : null}
-          />
-        ))}
+        {messages.map((message, i) => {
+          return (
+            <Message
+              key={i}
+              message={message}
+              self={this.getSelf(scope, message, player)}
+            />
+          );
+        })}
       </div>
     );
   }
 }
 
 Messages.propTypes = {
+  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
   messages: PropTypes.array.isRequired,
   player: PropTypes.object,
 };
