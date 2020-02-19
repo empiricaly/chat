@@ -44,6 +44,6 @@ import { ChatRound } from "@empirica/chat";
 
 `ChatRound` expects 3 props:
 
-- gameLobby: a props from Empirica
+- game: a props from Empirica
 - stage: a props from Empirica
 - player: a props from Empirica
