@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 import ChatLog from "./ChatLog";
 import ChatHeader from "./ChatHeader";
 import ChatClosedButton from "./ChatClosedButton";
+import GameLobby from "./GameLobby";
 import "./style.less";
 
 export class Chat extends React.Component {
@@ -14,20 +16,16 @@ export class Chat extends React.Component {
     };
   }
 
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(this.props, nextProps);
+  }
+
   onClickButton = () => {
     const { isChatOpen } = this.state;
     this.setState({
       isChatOpen: !isChatOpen,
     });
   };
-
-  // getMessages = (stage, game) =>
-  //   stage.get("chat")
-  //     ? stage.get("chat").map(({ text, playerId }) => ({
-  //         text,
-  //         subject: game.players.find(p => p._id === playerId),
-  //       }))
-  //     : [];
 
   render() {
     const { isChatOpen } = this.state;
@@ -69,9 +67,9 @@ export class LobbyChat extends React.Component {
     };
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   console.log('ini nextProps ', nextProps)
-  // }
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(this.props, nextProps);
+  }
 
   onClickButton = () => {
     const { isChatOpen } = this.state;
@@ -79,14 +77,6 @@ export class LobbyChat extends React.Component {
       isChatOpen: !isChatOpen,
     });
   };
-
-  // getMessages = game =>
-  //   game.get("chat")
-  //     ? game.get("chat").map(({ text, playerId }) => ({
-  //         text,
-  //         subject: game.queuedPlayerIds.find(p => p === playerId),
-  //       }))
-  //     : [];
 
   render() {
     const { isChatOpen } = this.state;
@@ -100,15 +90,18 @@ export class LobbyChat extends React.Component {
       : [];
 
     return (
-      <div className="empirica-chat-container" style={{ marginTop: "5rem" }}>
-        {isChatOpen ? (
-          <div className="empirica-chat-open">
-            <ChatHeader scope="lobby" onClickButton={this.onClickButton} />
-            <ChatLog scope="lobby" messages={messages} {...this.props} />
-          </div>
-        ) : (
-          <ChatClosedButton scope="lobby" onClickButton={this.onClickButton} />
-        )}
+      <div>
+        <GameLobby {...this.props} />
+        <div className="empirica-chat-container">
+          {isChatOpen ? (
+            <div className="empirica-chat-open">
+              <ChatHeader scope="lobby" onClickButton={this.onClickButton} />
+              <ChatLog scope="lobby" messages={messages} {...this.props} />
+            </div>
+          ) : (
+            <ChatClosedButton scope="lobby" onClickButton={this.onClickButton} />
+          )}
+        </div>
       </div>
     );
   }
@@ -117,4 +110,5 @@ export class LobbyChat extends React.Component {
 LobbyChat.propTypes = {
   player: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
+  treatment: PropTypes.object.isRequired,
 };
