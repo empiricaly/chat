@@ -22,8 +22,8 @@ export default class ChatFooter extends React.Component {
           playerId: player._id,
         });
       } else {
-        const { gameLobby, player } = this.props;
-        gameLobby.append("chat", {
+        const { game, player } = this.props;
+        game.append("chat", {
           text,
           playerId: player._id,
         });
@@ -66,5 +66,5 @@ ChatFooter.propTypes = {
   scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
   player: PropTypes.object.isRequired,
   stage: PropTypes.object,
-  gameLobby: PropTypes.object,
+  game: PropTypes.object,
 };

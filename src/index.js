@@ -6,7 +6,7 @@ import ChatHeader from "./ChatHeader";
 import ChatClosedButton from "./ChatClosedButton";
 import "./style.less";
 
-export class ChatRound extends React.Component {
+export class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +20,14 @@ export class ChatRound extends React.Component {
       isChatOpen: !isChatOpen,
     });
   };
+
+  // getMessages = (stage, game) =>
+  //   stage.get("chat")
+  //     ? stage.get("chat").map(({ text, playerId }) => ({
+  //         text,
+  //         subject: game.players.find(p => p._id === playerId),
+  //       }))
+  //     : [];
 
   render() {
     const { isChatOpen } = this.state;
@@ -47,19 +55,23 @@ export class ChatRound extends React.Component {
   }
 }
 
-ChatRound.propTypes = {
+Chat.propTypes = {
   stage: PropTypes.object.isRequired,
   player: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
 };
 
-export class ChatLobby extends React.Component {
+export class LobbyChat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isChatOpen: true,
     };
   }
+
+  // shouldComponentUpdate(nextProps) {
+  //   console.log('ini nextProps ', nextProps)
+  // }
 
   onClickButton = () => {
     const { isChatOpen } = this.state;
@@ -68,14 +80,22 @@ export class ChatLobby extends React.Component {
     });
   };
 
+  // getMessages = game =>
+  //   game.get("chat")
+  //     ? game.get("chat").map(({ text, playerId }) => ({
+  //         text,
+  //         subject: game.queuedPlayerIds.find(p => p === playerId),
+  //       }))
+  //     : [];
+
   render() {
     const { isChatOpen } = this.state;
 
-    const { gameLobby } = this.props;
-    const messages = gameLobby.get("chat")
-      ? gameLobby.get("chat").map(({ text, playerId }) => ({
+    const { game } = this.props;
+    const messages = game.get("chat")
+      ? game.get("chat").map(({ text, playerId }) => ({
           text,
-          subject: gameLobby.queuedPlayerIds.find(p => p === playerId),
+          subject: game.queuedPlayerIds.find(p => p === playerId),
         }))
       : [];
 
@@ -94,7 +114,7 @@ export class ChatLobby extends React.Component {
   }
 }
 
-ChatLobby.propTypes = {
+LobbyChat.propTypes = {
   player: PropTypes.object.isRequired,
-  gameLobby: PropTypes.object.isRequired,
+  game: PropTypes.object.isRequired,
 };

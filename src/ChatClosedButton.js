@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default class ChatClosedButton extends React.Component {
   render() {
     const { onClickButton, scope } = this.props;
-    const title = scope === "round" ? "Chat" : "Chat Lobby";
+    const title = scope === "round" ? "Chat" : "Lobby Chat";
 
     return (
       <div className="empirica-chat-close" onClick={onClickButton}>

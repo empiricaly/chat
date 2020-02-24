@@ -16,7 +16,7 @@ export default class ChatLog extends React.Component {
     footerProps =
       scope === "round"
         ? { ...footerProps, stage: this.props.stage }
-        : { ...footerProps, gameLobby: this.props.gameLobby };
+        : { ...footerProps, game: this.props.game };
 
     return (
       <div className="chat">
@@ -31,6 +31,6 @@ ChatLog.propTypes = {
   scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
   messages: PropTypes.array.isRequired,
   stage: PropTypes.object,
-  gameLobby: PropTypes.object,
+  game: PropTypes.object,
   player: PropTypes.object.isRequired,
 };

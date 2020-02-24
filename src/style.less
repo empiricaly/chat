@@ -7,7 +7,10 @@
     flex-shrink: 0;
     width: 38rem;
     max-height: 100%;
-    height: 100%;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 99;
 
     .header {
       height: 5rem;
@@ -137,17 +140,21 @@
   }
 
   .empirica-chat-close {
-    height: 48px;
+    height: 40px;
     width: 120px;
     min-width: 120px;
     background-color: #137cbd;
     cursor: pointer;
-    border-radius: 20px;
+    border-top-left-radius: 20px;
     display: flex;
     padding: 1rem;
     align-items: center;
     justify-content: center;
     align-self: flex-end;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 999;
 
     .close-text {
       color: white;
