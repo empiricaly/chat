@@ -29,9 +29,10 @@ export default class ChatLog extends React.Component {
 }
 
 ChatLog.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
+  scope: PropTypes.oneOfType([s=>{s=="lobby"}, s=>{s=="round"}]).isRequired,
   messages: PropTypes.array.isRequired,
   stage: PropTypes.object,
   game: PropTypes.object,
   player: PropTypes.object.isRequired,
+  chatId: PropTypes.string.isRequired,
 };

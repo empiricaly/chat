@@ -17,6 +17,6 @@ export default class ChatHeader extends React.Component {
 }
 
 ChatHeader.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
+  scope: PropTypes.oneOfType([s=>{s=="lobby"}, s=>{s=="round"}]).isRequired,
   onClickButton: PropTypes.func.isRequired,
 };

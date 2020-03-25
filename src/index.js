@@ -29,7 +29,7 @@ export class Chat extends React.Component {
 
   render() {
     const { isChatOpen } = this.state;
-    const { stage, game, player, chatId } = this.props;
+    const { stage, game, player, chatId, showHeader } = this.props;
 
     const messages = stage.get("chat")
       ? _.filter(stage.get("chat"), {"chatId":chatId}).map(({ text, playerId }) => ({
@@ -42,9 +42,8 @@ export class Chat extends React.Component {
       <div className="empirica-chat-container">
         {isChatOpen ? (
           <div className="empirica-chat-open">
-            <ChatHeader scope="round" onClickButton={this.onClickButton} />
-            <ChatLog scope="round" messages={messages}
-              stage={stage} player={player} chatId={chatId}/>
+            {showHeader && <ChatHeader scope="round" onClickButton={this.onClickButton} />}
+            <ChatLog scope="round" messages={messages} stage={stage} player={player} chatId={chatId}/>
           </div>
         ) : (
           <ChatClosedButton scope="round" onClickButton={this.onClickButton} />
@@ -59,10 +58,12 @@ Chat.propTypes = {
   player: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
   chatId: PropTypes.string,  // happens after defaultProps is resolved
+  showHeader: PropTypes.bool
 };
 
 Chat.defaultProps = {
-  chatId: ""
+  chatId: "",
+  showHeader: true
 }
 
 export class LobbyChat extends React.Component {

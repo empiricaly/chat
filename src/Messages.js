@@ -43,7 +43,7 @@ export default class Messages extends React.Component {
 }
 
 Messages.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
+  scope: PropTypes.oneOfType([s=>{s=="lobby"}, s=>{s=="round"}]).isRequired,
   messages: PropTypes.array.isRequired,
   player: PropTypes.object,
 };

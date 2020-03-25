@@ -65,7 +65,7 @@ export default class ChatFooter extends React.Component {
 }
 
 ChatFooter.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
+  scope: PropTypes.oneOfType([s=>{s=="lobby"}, s=>{s=="round"}]).isRequired,
   player: PropTypes.object.isRequired,
   stage: PropTypes.object,
   game: PropTypes.object,
