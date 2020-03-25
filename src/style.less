@@ -5,15 +5,10 @@
 .empirica-chat-container {
   display: flex;
 
+
   .empirica-chat-open {
-    margin-left: 2rem;
-    flex-grow: 0;
-    flex-shrink: 0;
-    width: 38rem;
+
     max-height: 100%;
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
     z-index: 99;
 
     .header {
@@ -141,6 +136,22 @@
         }
       }
     }
+  }
+
+  .empirica-chat-open-fixed {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 38rem;
+    margin-left: 2rem;
+    .empirica-chat-open();
+  }
+
+  .empirica-chat-open-float {
+    min-width: 30rem;
+    .empirica-chat-open();
   }
 
   .empirica-chat-close {
