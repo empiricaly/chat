@@ -30,7 +30,6 @@ export class Chat extends React.Component {
   render() {
     const { isChatOpen } = this.state;
     const { stage, game, player, chatId } = this.props;
-    // Todo: if id is undefined, set it to 'default' or ''
 
     const messages = stage.get("chat")
       ? _.filter(stage.get("chat"), {"chatId":chatId}).map(({ text, playerId }) => ({
@@ -59,7 +58,12 @@ Chat.propTypes = {
   stage: PropTypes.object.isRequired,
   player: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
+  chatId: PropTypes.string,  // happens after defaultProps is resolved
 };
+
+Chat.defaultProps = {
+  chatId: ""
+}
 
 export class LobbyChat extends React.Component {
   constructor(props) {
