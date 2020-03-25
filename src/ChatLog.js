@@ -7,10 +7,11 @@ import "./style.less";
 
 export default class ChatLog extends React.Component {
   render() {
-    const { scope, player, messages } = this.props;
+    const { scope, player, messages, chatId } = this.props;
     let footerProps = {
       scope,
       player,
+      chatId
     };
 
     footerProps =

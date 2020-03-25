@@ -16,16 +16,18 @@ export default class ChatFooter extends React.Component {
       const { scope } = this.props;
 
       if (scope === "round") {
-        const { stage, player } = this.props;
+        const { stage, player, chatId } = this.props;
         stage.append("chat", {
           text,
           playerId: player._id,
+          chatId,
         });
       } else {
-        const { game, player } = this.props;
+        const { game, player, chatId } = this.props;
         game.append("chat", {
           text,
           playerId: player._id,
+          chatId
         });
       }
 

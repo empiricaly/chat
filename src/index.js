@@ -29,10 +29,11 @@ export class Chat extends React.Component {
 
   render() {
     const { isChatOpen } = this.state;
-    const { stage, game, player } = this.props;
+    const { stage, game, player, chatId } = this.props;
+    // Todo: if id is undefined, set it to 'default' or ''
 
     const messages = stage.get("chat")
-      ? stage.get("chat").map(({ text, playerId }) => ({
+      ? _.filter(stage.get("chat"), {"chatId":chatId}).map(({ text, playerId }) => ({
           text,
           subject: game.players.find(p => p._id === playerId),
         }))
@@ -43,7 +44,8 @@ export class Chat extends React.Component {
         {isChatOpen ? (
           <div className="empirica-chat-open">
             <ChatHeader scope="round" onClickButton={this.onClickButton} />
-            <ChatLog scope="round" messages={messages} stage={stage} player={player} />
+            <ChatLog scope="round" messages={messages}
+              stage={stage} player={player} chatId={chatId}/>
           </div>
         ) : (
           <ChatClosedButton scope="round" onClickButton={this.onClickButton} />
