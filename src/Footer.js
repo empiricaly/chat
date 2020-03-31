@@ -1,36 +1,31 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 
-export default class ChatFooter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      comment: "",
-    };
-  }
+export default class Footer extends React.Component {
+  state = { comment: "" };
 
   handleSubmit = e => {
     e.preventDefault();
+
     const text = this.state.comment.trim();
-    if (text !== "") {
-      const { scope } = this.props;
-
-      if (scope === "round") {
-        const { stage, player } = this.props;
-        stage.append("chat", {
-          text,
-          playerId: player._id,
-        });
-      } else {
-        const { game, player } = this.props;
-        game.append("chat", {
-          text,
-          playerId: player._id,
-        });
-      }
-
-      this.setState({ comment: "" });
+    if (text === "") {
+      return;
     }
+
+    const { player, onNewMessage } = this.props;
+
+    const msg = {
+      text,
+      player: {
+        _id: player._id,
+        avatar: player.get("avatar"),
+        name: player.get("name") || player._id
+      }
+    };
+
+    onNewMessage(msg);
+
+    this.setState({ comment: "" });
   };
 
   handleChange = e => {
@@ -62,9 +57,9 @@ export default class ChatFooter extends React.Component {
   }
 }
 
-ChatFooter.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
+Footer.propTypes = {
   player: PropTypes.object.isRequired,
-  stage: PropTypes.object,
-  game: PropTypes.object,
+  scope: PropTypes.object.isRequired,
+  key: PropTypes.string.isRequired,
+  onNewMessage: PropTypes.func
 };

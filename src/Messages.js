@@ -1,39 +1,41 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-import Message from "./Message";
-import "./style.less";
+import React from "react";
 
 export default class Messages extends React.Component {
+  constructor(props) {
+    super(props);
+    this.messagesEl = React.createRef();
+  }
+
   componentDidMount() {
-    this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.messages.length < this.props.messages.length) {
-      this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+      this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
     }
   }
 
-  getSelf = (scope, message, player) => {
-    if (scope === "round") {
-      return message.subject ? player._id === message.subject._id : null;
+  render() {
+    const { player, scope, key, filter, messageComp: MessageComp } = this.props;
+
+    let messages = scope.get(key) || [];
+    if (filter) {
+      messages = filter(messages);
     }
 
-    return message.subject ? player._id === message.subject : null;
-  };
-
-  render() {
-    const { messages, player, scope } = this.props;
     return (
-      <div className="messages" ref={el => (this.messagesEl = el)}>
-        {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}
+      <div className="messages" ref={this.messagesEl}>
+        {messages.length === 0 ? (
+          <div className="empty">No messages yet...</div>
+        ) : null}
         {messages.map((message, i) => {
           return (
-            <Message
+            <MessageComp
               key={i}
               message={message}
-              self={this.getSelf(scope, message, player)}
+              self={message.playerId === player._id}
             />
           );
         })}
@@ -43,7 +45,9 @@ export default class Messages extends React.Component {
 }
 
 Messages.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
-  messages: PropTypes.array.isRequired,
   player: PropTypes.object,
+  scope: PropTypes.object.isRequired,
+  key: PropTypes.string.isRequired,
+  messageComp: PropTypes.elementType,
+  filter: PropTypes.func
 };

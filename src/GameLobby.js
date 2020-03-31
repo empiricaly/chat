@@ -1,14 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import _ from "lodash"
 import { NonIdealState } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
+import PropTypes from "prop-types";
+import React from "react";
 
-export default class GameLobby extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(this.props, nextProps);
-  }
-
+export default class GameLobby extends React.PureComponent {
   renderPlayersReady = () => {
     return (
       <div className="game-lobby">
@@ -53,5 +48,5 @@ export default class GameLobby extends React.Component {
 GameLobby.propTypes = {
   player: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
-  treatment: PropTypes.object.isRequired,
+  treatment: PropTypes.object.isRequired
 };
