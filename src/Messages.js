@@ -33,7 +33,7 @@ export default class Messages extends React.Component {
         {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}
         {messages.map((message, i) => {
           return (
-            <MessageComp key={i} message={message} player={player} self={message.playerId === player._id} />
+            <MessageComp key={i} message={message} player={player} />
           );
         })}
       </div>
