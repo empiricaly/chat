@@ -28,7 +28,7 @@ import { Chat } from "@empirica/chat";
 ### Multiple chat instances within the same scope
 
 You can pass an optional `customKey` string prop to differenciate different chats
-within the same scope. This changes which customKey on the given scope the chat will
+within the same scope. This changes which get/set key on the given scope the chat will
 be recorded to.
 
 ```jsx
