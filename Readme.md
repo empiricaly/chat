@@ -27,12 +27,12 @@ import { Chat } from "@empirica/chat";
 
 ### Multiple chat instances within the same scope
 
-You can pass an optional `key` string prop to differenciate different chats
-within the same scope. This changes which key on the given scope the chat will
+You can pass an optional `customKey` string prop to differenciate different chats
+within the same scope. This changes which customKey on the given scope the chat will
 be recorded to.
 
 ```jsx
-<Chat player={player} scope={game} key="casual_chat" />
+<Chat player={player} scope={game} customKey="casual_chat" />
 ```
 
 ### Filtering which messages to show
@@ -104,7 +104,7 @@ The available component overrides are as follow:
 - `message`: A message (with body and author info)
 - `footer`: The footer of the chat window, which contains the input by default.
 
-All components receive the `player`, `scope`, and `key` props. `header` and
+All components receive the `player`, `scope`, and `customKey` props. `header` and
 `closed` also receive an `onClick` prop, that will toggle chat window open and
 closed. And `footer` receives `onNewMessage` which new messages should be sent
 to. See existing components in `./src` for details.

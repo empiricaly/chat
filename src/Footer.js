@@ -60,6 +60,6 @@ export default class Footer extends React.Component {
 Footer.propTypes = {
   player: PropTypes.object.isRequired,
   scope: PropTypes.object.isRequired,
-  key: PropTypes.string.isRequired,
+  customKey: PropTypes.string.isRequired,
   onNewMessage: PropTypes.func
 };

@@ -12,31 +12,28 @@ export default class Messages extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.messages.length < this.props.messages.length) {
+    const { messages: prevMessages } = prevProps;
+    const { messages: currentMessages } = this.props
+
+    if (prevMessages && currentMessages && (prevMessages.length < currentMessages.length)) {
       this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
     }
   }
 
   render() {
-    const { player, scope, key, filter, messageComp: MessageComp } = this.props;
+    const { player, scope, customKey, filter, messageComp: MessageComp } = this.props;
 
-    let messages = scope.get(key) || [];
+    let messages = scope.get(customKey) || [];
     if (filter) {
       messages = filter(messages);
     }
 
     return (
       <div className="messages" ref={this.messagesEl}>
-        {messages.length === 0 ? (
-          <div className="empty">No messages yet...</div>
-        ) : null}
+        {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}
         {messages.map((message, i) => {
           return (
-            <MessageComp
-              key={i}
-              message={message}
-              self={message.playerId === player._id}
-            />
+            <MessageComp key={i} message={message} player={player} self={message.playerId === player._id} />
           );
         })}
       </div>
@@ -47,7 +44,7 @@ export default class Messages extends React.Component {
 Messages.propTypes = {
   player: PropTypes.object,
   scope: PropTypes.object.isRequired,
-  key: PropTypes.string.isRequired,
+  customKey: PropTypes.string.isRequired,
   messageComp: PropTypes.elementType,
   filter: PropTypes.func
 };

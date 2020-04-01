@@ -12,7 +12,7 @@ export default class Chat extends React.PureComponent {
   };
 
   onNewMessage = msg => {
-    const { onNewMessage, scope, key } = this.props;
+    const { onNewMessage, scope, customKey } = this.props;
 
     if (onNewMessage) {
       msg = onNewMessage(msg);
@@ -21,7 +21,7 @@ export default class Chat extends React.PureComponent {
       }
     }
 
-    scope.append(key, msg);
+    scope.append(customKey, msg);
   };
 
   render() {
@@ -29,7 +29,7 @@ export default class Chat extends React.PureComponent {
     const {
       player,
       scope,
-      key,
+      customKey,
 
       filter,
 
@@ -39,7 +39,7 @@ export default class Chat extends React.PureComponent {
       footer: FooterComp
     } = this.props;
 
-    const common = { player, scope, key };
+    const common = { player, scope, customKey };
 
     return (
       <div className="empirica-chat-container">
@@ -52,7 +52,7 @@ export default class Chat extends React.PureComponent {
             </div>
           </div>
         ) : (
-          <ClosedComp {...common} onClick={onClick} />
+          <ClosedComp {...common} onClick={this.onClick} />
         )}
       </div>
     );
@@ -60,7 +60,7 @@ export default class Chat extends React.PureComponent {
 }
 
 Chat.defaultProps = {
-  key: "chat",
+  customKey: "chat",
 
   header: ({ onClick }) => (
     <div className="header">
@@ -82,7 +82,7 @@ Chat.defaultProps = {
 Chat.propTypes = {
   player: PropTypes.object.isRequired,
   scope: PropTypes.object.isRequired,
-  key: PropTypes.string.isRequired,
+  customKey: PropTypes.string.isRequired,
 
   onNewMessage: PropTypes.func,
   filter: PropTypes.func,
