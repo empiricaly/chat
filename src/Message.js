@@ -11,7 +11,7 @@ export default class Message extends React.Component {
       <div className="message">
         <div className="author">
           {player.avatar ? <img src={player.avatar} /> : null}
-          <span className="name">{isSelf ? "You" : player.name}</span>
+          <span className="name">{isSelf ? "You" : player.get("displayName")}</span>
         </div>
         : {text}
       </div>
