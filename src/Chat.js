@@ -8,7 +8,7 @@ export default class Chat extends React.PureComponent {
   state = { isChatOpen: true };
 
   onClick = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.setState({ isChatOpen: !this.state.isChatOpen });
   };
 
   onNewMessage = msg => {
@@ -25,7 +25,7 @@ export default class Chat extends React.PureComponent {
   };
 
   render() {
-    const { isOpen } = this.state;
+    const { isChatOpen } = this.state;
     const {
       player,
       scope,
@@ -43,7 +43,7 @@ export default class Chat extends React.PureComponent {
 
     return (
       <div className="empirica-chat-container">
-        {isOpen ? (
+        {isChatOpen ? (
           <div className="empirica-chat-open">
             <HeaderComp {...common} onClick={this.onClick} />
             <div className="chat">
