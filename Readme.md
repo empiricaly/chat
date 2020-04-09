@@ -25,6 +25,9 @@ import { Chat } from "@empirica/chat";
 - `scope`: object that the chat will be attached to, can be game, round, or
   stage objects.
 
+`Chat` also displays a name for each participant, which you need to set
+in the experiment independently of the `playerId`: `player.set('name', "myPseudonym")`
+
 ### Multiple chat instances within the same scope
 
 You can pass an optional `customKey` string prop to differenciate different chats
