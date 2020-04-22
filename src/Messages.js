@@ -1,41 +1,47 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 
-import Message from "./Message";
-import "./style.less";
+function filteredMessages(WrappedComponent) {
+  return class extends React.PureComponent {
+    render() {
+      const { scope, customKey, filter, ...rest } = this.props;
+      let messages = scope.get(customKey) || [];
+      if (filter) {
+        messages = filter(messages);
+      }
 
-export default class Messages extends React.Component {
+      return <WrappedComponent messages={messages} {...rest} />;
+    }
+  };
+}
+
+class Messages extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.messagesEl = React.createRef();
+  }
+
   componentDidMount() {
-    this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.messages.length < this.props.messages.length) {
-      this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    const { messages: prevMessages } = prevProps;
+    const { messages: currentMessages } = this.props;
+
+    if (this.messagesEl.current !== null && currentMessages.length > prevMessages.length) {
+      this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
     }
   }
 
-  getSelf = (scope, message, player) => {
-    if (scope === "round") {
-      return message.subject ? player._id === message.subject._id : null;
-    }
-
-    return message.subject ? player._id === message.subject : null;
-  };
-
   render() {
-    const { messages, player, scope } = this.props;
+    const { player, messages, messageComp: MessageComp } = this.props;
+
     return (
-      <div className="messages" ref={el => (this.messagesEl = el)}>
+      <div className="messages" ref={this.messagesEl}>
         {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}
         {messages.map((message, i) => {
-          return (
-            <Message
-              key={i}
-              message={message}
-              self={this.getSelf(scope, message, player)}
-            />
-          );
+          return <MessageComp key={i} message={message} player={player} />;
         })}
       </div>
     );
@@ -43,7 +49,11 @@ export default class Messages extends React.Component {
 }
 
 Messages.propTypes = {
-  scope: PropTypes.oneOfType(["lobby", "round"]).isRequired,
-  messages: PropTypes.array.isRequired,
   player: PropTypes.object,
+  scope: PropTypes.object.isRequired,
+  customKey: PropTypes.string.isRequired,
+  messageComp: PropTypes.elementType,
+  filter: PropTypes.func,
 };
+
+export default filteredMessages(Messages);

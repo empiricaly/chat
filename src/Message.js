@@ -1,16 +1,19 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-import Author from "./Author";
-import "./style.less";
+import React from "react";
 
 export default class Message extends React.Component {
   render() {
-    const { text, subject } = this.props.message;
-    const { self } = this.props;
+    const { message, player } = this.props;
+    const { player: msgPlayer, text } = message;
+    const isSelf = player._id == msgPlayer._id;
+
     return (
       <div className="message">
-        <Author player={subject} self={self} />: {text}
+        <div className="author">
+          {msgPlayer.avatar ? <img src={msgPlayer.avatar} /> : null}
+          <span className="name">{isSelf ? "You" : msgPlayer.name}</span>
+        </div>
+        : {text}
       </div>
     );
   }
@@ -19,7 +22,10 @@ export default class Message extends React.Component {
 Message.propTypes = {
   message: PropTypes.shape({
     text: PropTypes.string.isRequired,
-    subject: PropTypes.object.isRequired,
+    player: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string
+    })
   }).isRequired,
-  self: PropTypes.bool,
+  self: PropTypes.bool
 };
