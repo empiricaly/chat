@@ -10,7 +10,7 @@ function filteredMessages(WrappedComponent) {
         messages = filter(messages);
       }
 
-      return <WrappedComponent messages={messages} {...rest} />;
+      return <WrappedComponent messages={[...messages]} {...rest} />;
     }
   };
 }
