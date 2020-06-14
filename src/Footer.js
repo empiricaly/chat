@@ -1,38 +1,37 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { StageTimeWrapper } from "meteor/empirica:core";
 
-
-class Footer extends React.Component {
+export default class Footer extends React.Component {
   state = { comment: "" };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const { now } = this.props;
-
     const text = this.state.comment.trim();
     if (text === "") {
       return;
     }
 
-    const { player, onNewMessage } = this.props;
+    const { player, onNewMessage, timeStamp } = this.props;
 
-    const msg = {
+    let msg = {
       text,
-      timeStamp: now,
       player: {
         _id: player._id,
         avatar: player.get("avatar"),
-        name: player.get("name") || player._id
-      }
+        name: player.get("name") || player._id,
+      },
     };
+
+    if (timeStamp) {
+      msg = { ...msg, timeStamp };
+    }
 
     onNewMessage(msg);
 
     this.setState({ comment: "" });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const el = e.currentTarget;
     this.setState({ [el.name]: el.value });
   };
@@ -65,8 +64,6 @@ Footer.propTypes = {
   player: PropTypes.object.isRequired,
   scope: PropTypes.object.isRequired,
   customKey: PropTypes.string.isRequired,
-  onNewMessage: PropTypes.func
+  onNewMessage: PropTypes.func,
+  timeStamp: PropTypes.instanceOf(Date),
 };
-
-
-export default (Footer = StageTimeWrapper(Footer));

@@ -38,6 +38,14 @@ be recorded to.
 <Chat player={player} scope={game} customKey="casual_chat" />
 ```
 
+### Adding timestamp to chat message
+
+You can pass an optional `timeStamp` date prop to add the timestamp attribute on each message sent
+
+```jsx
+<Chat player={player} scope={game} timeStamp={timeStamp} />
+```
+
 ### Filtering which messages to show
 
 You can filter out which messages to show in the chat with the `filter`
@@ -50,7 +58,7 @@ example, don't show messages that include the word "pizza":
 <Chat
   player={player}
   scope={game}
-  filter={msgs => msgs.filter(msg => !msg.text.includes("pizza"))}
+  filter={(msgs) => msgs.filter((msg) => !msg.text.includes("pizza"))}
 />
 ```
 
@@ -65,7 +73,7 @@ For example, you might want to attach extra metadata on the message:
 <Chat
   player={player}
   scope={game}
-  onNewMessage={msg => {
+  onNewMessage={(msg) => {
     msg.period = "blue";
     return msg;
   }}
@@ -80,7 +88,7 @@ don't like pizza:
 <Chat
   player={player}
   scope={game}
-  onNewMessage={msg => (msg.text.includes("pizza") ? null : msg)}
+  onNewMessage={(msg) => (msg.text.includes("pizza") ? null : msg)}
 />
 ```
 

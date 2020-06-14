@@ -11,7 +11,7 @@ export default class Chat extends React.PureComponent {
     this.setState({ isChatOpen: !this.state.isChatOpen });
   };
 
-  onNewMessage = msg => {
+  onNewMessage = (msg) => {
     const { onNewMessage, scope, customKey } = this.props;
 
     if (onNewMessage) {
@@ -32,11 +32,12 @@ export default class Chat extends React.PureComponent {
       customKey,
 
       filter,
+      timeStamp,
 
       header: HeaderComp,
       closed: ClosedComp,
       message: MessageComp,
-      footer: FooterComp
+      footer: FooterComp,
     } = this.props;
 
     const common = { player, scope, customKey };
@@ -48,7 +49,7 @@ export default class Chat extends React.PureComponent {
             <HeaderComp {...common} onClick={this.onClick} />
             <div className="chat">
               <Messages {...common} messageComp={MessageComp} filter={filter} />
-              <FooterComp {...common} onNewMessage={this.onNewMessage} />
+              <FooterComp {...common} timeStamp={timeStamp} onNewMessage={this.onNewMessage} />
             </div>
           </div>
         ) : (
@@ -76,13 +77,14 @@ Chat.defaultProps = {
     </div>
   ),
   message: Message,
-  footer: Footer
+  footer: Footer,
 };
 
 Chat.propTypes = {
   player: PropTypes.object.isRequired,
   scope: PropTypes.object.isRequired,
   customKey: PropTypes.string.isRequired,
+  timeStamp: PropTypes.instanceOf(Date),
 
   onNewMessage: PropTypes.func,
   filter: PropTypes.func,
@@ -90,5 +92,5 @@ Chat.propTypes = {
   header: PropTypes.elementType.isRequired,
   closed: PropTypes.elementType.isRequired,
   message: PropTypes.elementType.isRequired,
-  footer: PropTypes.elementType.isRequired
+  footer: PropTypes.elementType.isRequired,
 };
