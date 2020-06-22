@@ -1,15 +1,17 @@
 import PropTypes from "prop-types";
+
 import React from "react";
 import Chat from "./Chat";
 import GameLobby from "./GameLobby";
+import ErrorBoundary from "./ErrorBoundary";
 
 export default class LobbyChat extends React.PureComponent {
   render() {
     return (
-      <div>
+      <ErrorBoundary>
         <GameLobby {...this.props} />
-        <Chat {...this.props} />
-      </div>
+        <Chat {...this.props} scope={this.props.game} />
+      </ErrorBoundary>
     );
   }
 }
@@ -17,5 +19,5 @@ export default class LobbyChat extends React.PureComponent {
 LobbyChat.propTypes = {
   player: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
-  treatment: PropTypes.object.isRequired
+  treatment: PropTypes.object.isRequired,
 };

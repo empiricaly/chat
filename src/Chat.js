@@ -3,6 +3,7 @@ import React from "react";
 import Footer from "./Footer";
 import Message from "./Message";
 import Messages from "./Messages";
+import ErrorBoundary from "./ErrorBoundary";
 
 export default class Chat extends React.PureComponent {
   state = { isChatOpen: true };
@@ -43,19 +44,29 @@ export default class Chat extends React.PureComponent {
     const common = { player, scope, customKey };
 
     return (
-      <div className="empirica-chat-container">
-        {isChatOpen ? (
-          <div className="empirica-chat-open">
-            <HeaderComp {...common} onClick={this.onClick} />
-            <div className="chat">
-              <Messages {...common} messageComp={MessageComp} filter={filter} />
-              <FooterComp {...common} timeStamp={timeStamp} onNewMessage={this.onNewMessage} />
+      <ErrorBoundary>
+        <div className="empirica-chat-container">
+          {isChatOpen ? (
+            <div className="empirica-chat-open">
+              <HeaderComp {...common} onClick={this.onClick} />
+              <div className="chat">
+                <Messages
+                  {...common}
+                  messageComp={MessageComp}
+                  filter={filter}
+                />
+                <FooterComp
+                  {...common}
+                  timeStamp={timeStamp}
+                  onNewMessage={this.onNewMessage}
+                />
+              </div>
             </div>
-          </div>
-        ) : (
-          <ClosedComp {...common} onClick={this.onClick} />
-        )}
-      </div>
+          ) : (
+            <ClosedComp {...common} onClick={this.onClick} />
+          )}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

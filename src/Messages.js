@@ -29,7 +29,10 @@ class Messages extends React.PureComponent {
     const { messages: prevMessages } = prevProps;
     const { messages: currentMessages } = this.props;
 
-    if (this.messagesEl.current !== null && currentMessages.length > prevMessages.length) {
+    if (
+      this.messagesEl.current !== null &&
+      currentMessages.length > prevMessages.length
+    ) {
       this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
     }
   }
@@ -39,7 +42,9 @@ class Messages extends React.PureComponent {
 
     return (
       <div className="messages" ref={this.messagesEl}>
-        {messages.length === 0 ? <div className="empty">No messages yet...</div> : null}
+        {messages.length === 0 ? (
+          <div className="empty">No messages yet...</div>
+        ) : null}
         {messages.map((message, i) => {
           return <MessageComp key={i} message={message} player={player} />;
         })}
