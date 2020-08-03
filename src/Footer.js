@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 export default class Footer extends React.Component {
-  state = { comment: "" };
+  state = { comment: "", rows: 1, minRows: 1, maxRows: 5, buttonHeight: 30 };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -33,25 +33,65 @@ export default class Footer extends React.Component {
 
   handleChange = (e) => {
     const el = e.currentTarget;
-    this.setState({ [el.name]: el.value });
+
+    const textareaLineHeight = 24;
+    const { minRows, maxRows } = this.state;
+
+    const previousRows = e.target.rows;
+    e.target.rows = minRows; // reset number of rows in textarea
+    const currentRows = ~~(e.target.scrollHeight / textareaLineHeight);
+
+    if (currentRows === previousRows) {
+      e.target.rows = currentRows;
+    }
+
+    if (currentRows >= maxRows) {
+      e.target.rows = maxRows;
+      e.target.scrollTop = e.target.scrollHeight;
+    }
+
+    const usedRows = currentRows < maxRows ? currentRows : maxRows;
+
+    this.setState(
+      {
+        [el.name]: el.value,
+        rows: usedRows,
+      },
+      () => {
+        this.setState({
+          buttonHeight: document.getElementById("chat-input").offsetHeight,
+        });
+      }
+    );
   };
 
   render() {
-    const { comment } = this.state;
+    const { comment, rows, buttonHeight } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="chat-footer">
-          <input
+          <textarea
+            id="chat-input"
             name="comment"
-            type="text"
             className="chat-input"
             placeholder="Enter chat message"
             value={comment}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                this.handleSubmit(event);
+              }
+            }}
+            rows={rows}
             onChange={this.handleChange}
             autoComplete="off"
           />
-          <button type="submit" className="chat-button-send">
+          <button
+            type="submit"
+            style={{ height: buttonHeight }}
+            className="chat-button-send"
+            disabled={!comment}
+          >
             Send
           </button>
         </div>

@@ -38,7 +38,7 @@ class Messages extends React.PureComponent {
   }
 
   render() {
-    const { player, messages, messageComp: MessageComp } = this.props;
+    const { player, messages, messageComp: MessageComp, ...rest } = this.props;
 
     return (
       <div className="messages" ref={this.messagesEl}>
@@ -46,7 +46,9 @@ class Messages extends React.PureComponent {
           <div className="empty">No messages yet...</div>
         ) : null}
         {messages.map((message, i) => {
-          return <MessageComp key={i} message={message} player={player} />;
+          return (
+            <MessageComp key={i} message={message} player={player} {...rest} />
+          );
         })}
       </div>
     );
@@ -55,10 +57,9 @@ class Messages extends React.PureComponent {
 
 Messages.propTypes = {
   player: PropTypes.object,
-  scope: PropTypes.object.isRequired,
-  customKey: PropTypes.string.isRequired,
   messageComp: PropTypes.elementType,
   filter: PropTypes.func,
+  variant: PropTypes.oneOf(["normal", "name", "avatar"]),
 };
 
 export default filteredMessages(Messages);
