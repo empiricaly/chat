@@ -59,7 +59,8 @@ Messages.propTypes = {
   player: PropTypes.object,
   messageComp: PropTypes.elementType,
   filter: PropTypes.func,
-  variant: PropTypes.oneOf(["normal", "name", "avatar"]),
+  hideAvatar: PropTypes.bool,
+  hideName: PropTypes.bool,
 };
 
 export default filteredMessages(Messages);
