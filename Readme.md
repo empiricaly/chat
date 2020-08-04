@@ -6,7 +6,9 @@ for Empirica.
 Add to your Empirica project with:
 
 ```sh
+
 meteor npm install --save @empirica/chat
+
 ```
 
 ## Usage
@@ -30,9 +32,9 @@ in the experiment independently of the `playerId`: `player.set('name', "myPseudo
 
 ### Multiple chat instances within the same scope
 
-You can pass an optional `customKey` string prop to differenciate different chats
+You can pass an optional `customKey` string prop to differentiate different chats
 within the same scope. This changes which get/set key on the given scope the chat will
-be recorded to.
+be recorded.
 
 ```jsx
 <Chat player={player} scope={game} customKey="casual_chat" />
@@ -65,8 +67,7 @@ example, don't show messages that include the word "pizza":
 ### Transforming the message before creation
 
 Before each message is created (after the player submits the message), the
-`onNewMessage` callback give the oppertunity to modify the message.
-
+`onNewMessage` callback give the opportunity to modify the message.
 For example, you might want to attach extra metadata on the message:
 
 ```jsx
@@ -75,12 +76,13 @@ For example, you might want to attach extra metadata on the message:
   scope={game}
   onNewMessage={(msg) => {
     msg.period = "blue";
+
     return msg;
   }}
 />
 ```
 
-If you return nother from the callback, the message will not be created, this
+If you return other from the callback, the message will not be created, this
 way you can filter messages before they are created. For example, you really
 don't like pizza:
 
@@ -107,7 +109,6 @@ like this:
 
 If you pass null to any component override, the component will not render (in
 the example above, we removed the chat header).
-
 The available component overrides are as follow:
 
 - `header`: The header of the open chat window.
@@ -119,6 +120,59 @@ All components receive the `player`, `scope`, and `customKey` props. `header` an
 `closed` also receive an `onClick` prop, that will toggle chat window open and
 closed. And `footer` receives `onNewMessage` which new messages should be sent
 to. See existing components in `./src` for details.
+
+### Hide the Avatar or Name
+
+If you want to hide the `avatar` or `name` you can pass additional props. The default value from the both props are `false`.
+This code will hide the avatar:
+
+```jsx
+
+<Chat hideAvatar ... />
+
+```
+
+This code will hide the name:
+
+```jsx
+
+<Chat hideName ... />
+
+```
+
+### Custom Styling of the Chat's Root Component
+
+If you want to override the root's css of Chat's Component, you can pass additional prop `customClassName`.
+
+```jsx
+
+<Chat customClassName="experiment-chat" ... />
+
+```
+
+### Docked Chat
+
+Chat can be on docked into the bottom of the page or fill the height and width of its wrapper. You can pass additional prop `docked` into chat to make it docked. The default value of `docked` is `false`.
+
+This code will make the Chat docked:
+
+```jsx
+
+<Chat docked ... />
+
+```
+
+### Set the Chat's Window appearance
+
+Chat Window can be set to be opened or closed when it appears on the first time. You can add additional prop `dockStartOpen`. The default value is `true`.
+
+This code will make Chat's window will be closed when it appears on the first time.
+
+```jsx
+
+<Chat dockStartOpen={false} ... />
+
+```
 
 ## Usage: Chat in Lobby
 
