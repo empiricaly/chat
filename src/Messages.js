@@ -61,6 +61,7 @@ Messages.propTypes = {
   filter: PropTypes.func,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
+  svgAvatar: PropTypes.bool,
 };
 
 export default filteredMessages(Messages);

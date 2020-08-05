@@ -17,13 +17,21 @@ export default class Message extends React.Component {
   };
 
   render() {
-    const { message, player, hideName, hideAvatar } = this.props;
+    const { message, player, hideName, hideAvatar, svgAvatar } = this.props;
     const { player: msgPlayer, text, timeStamp } = message;
     const isSelf = player._id == msgPlayer._id;
 
     return (
       <div className="message">
-        {!hideAvatar && <img src={msgPlayer.avatar} />}
+        {!hideAvatar &&
+          (!svgAvatar ? (
+            <img className="avatar" src={msgPlayer.avatar} />
+          ) : (
+            <div
+              dangerouslySetInnerHTML={{ __html: msgPlayer.avatar }}
+              className="avatar"
+            />
+          ))}
         <div className="text-container">
           {!hideName && this.renderName(isSelf, msgPlayer.name)}
           <div className="text">{text}</div>
@@ -45,4 +53,5 @@ Message.propTypes = {
   self: PropTypes.bool,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
+  svgAvatar: PropTypes.bool,
 };

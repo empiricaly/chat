@@ -140,6 +140,16 @@ This code will hide the name:
 
 ```
 
+### Use SVG as avatar
+
+If you want to use `svg` for the avatar, you can pass additional props. The default value from the prop is `false`.
+
+```jsx
+
+<Chat svgAvatar ... />
+
+```
+
 ### Custom Styling of the Chat's Root Component
 
 If you want to override the root's css of Chat's Component, you can pass additional prop `customClassName`.

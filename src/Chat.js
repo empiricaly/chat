@@ -97,6 +97,7 @@ Chat.defaultProps = {
   dockStartOpen: true,
   hideAvatar: false,
   hideName: false,
+  svgAvatar: false,
   header: ({ onClick, isOpen }) => (
     <div className="header">
       <span className="title">CHAT</span>
@@ -118,6 +119,7 @@ Chat.propTypes = {
   dockStartOpen: PropTypes.bool,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
+  svgAvatar: PropTypes.bool,
   customClassName: PropTypes.string,
 
   onNewMessage: PropTypes.func,
