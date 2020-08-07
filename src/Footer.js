@@ -79,7 +79,7 @@ export default class Footer extends React.Component {
             value={comment}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
-                this.handleSubmit(event);
+                this.handleSubmit(e);
               }
             }}
             rows={rows}
