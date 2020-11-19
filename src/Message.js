@@ -5,6 +5,11 @@ export default class Message extends React.Component {
   renderTime = (timeStamp) => {
     const hours = new Date(timeStamp).getHours();
     const minutes = new Date(timeStamp).getMinutes();
+
+    if (!hours || !minutes) {
+      return null;
+    }
+
     const time = `${hours
       .toString()
       .padStart(2, 0)}:${minutes.toString().padStart(2, 0)}`;
@@ -35,7 +40,9 @@ export default class Message extends React.Component {
         <div className="text-container">
           {!hideName && this.renderName(isSelf, msgPlayer.name)}
           <div className="text">{text}</div>
-          {this.renderTime(timeStamp)}
+          {timeStamp &&
+            new Date(timeStamp).getTime() > 0 &&
+            this.renderTime(timeStamp)}
         </div>
       </div>
     );
