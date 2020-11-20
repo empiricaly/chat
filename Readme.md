@@ -42,10 +42,13 @@ be recorded.
 
 ### Adding timestamp to chat message
 
-You can pass an optional `timeStamp` date prop to add the timestamp attribute on each message sent
+You can pass an optional `timeStamp` date prop to add the timestamp attribute on each message sent. Run this command to add mizzao timesync `meteor add mizzao:timesync`.
 
 ```jsx
-<Chat player={player} scope={game} timeStamp={timeStamp} />
+// reactive time value only updates at 1000 ms
+const timeStamp = new Date(TimeSync.serverTime(null, 1000));
+
+<Chat player={player} scope={game} timeStamp={timeStamp} />;
 ```
 
 ### Filtering which messages to show
