@@ -19,20 +19,39 @@ class Messages extends React.PureComponent {
   constructor(props) {
     super(props);
     this.messagesEl = React.createRef();
+    this.state = {
+      unreadIndex: 0,
+    };
   }
+
+  setUnreadIndex = (index) => {
+    this.setState({ unreadIndex: index });
+  };
 
   componentDidMount() {
     this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
+
+    const { messages } = this.props;
+    if (messages && messages.length > 0) {
+      this.setUnreadIndex(messages.length);
+    }
   }
 
   componentDidUpdate(prevProps) {
     const { messages: prevMessages } = prevProps;
-    const { messages: currentMessages } = this.props;
+    const { messages: currentMessages, addUnreadMsg, player } = this.props;
+    const { unreadIndex } = this.state;
 
     if (
       this.messagesEl.current !== null &&
       currentMessages.length > prevMessages.length
     ) {
+      for (let i = unreadIndex; i < currentMessages.length; i++) {
+        if (currentMessages[i].player._id !== player._id) {
+          addUnreadMsg();
+        }
+      }
+
       this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
     }
   }
@@ -59,6 +78,7 @@ Messages.propTypes = {
   player: PropTypes.object,
   messageComp: PropTypes.elementType,
   filter: PropTypes.func,
+  addUnreadMsg: PropTypes.func,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
   svgAvatar: PropTypes.bool,

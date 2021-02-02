@@ -33,7 +33,6 @@ export default class Footer extends React.Component {
 
   handleChange = (e) => {
     const el = e.currentTarget;
-
     const textareaLineHeight = 24;
     const { minRows, maxRows } = this.state;
 

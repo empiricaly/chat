@@ -4,20 +4,40 @@ import Footer from "./Footer";
 import Message from "./Message";
 import Messages from "./Messages";
 import ErrorBoundary from "./ErrorBoundary";
-import { rest } from "lodash";
 
 export default class Chat extends React.PureComponent {
-  state = { isOpen: true };
+  state = { isOpen: true, unreadMsg: 0 };
 
   onClick = () => {
     this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  addUnreadMsg = () => {
+    this.setState(
+      {
+        unreadMsg: this.state.unreadMsg + 1,
+      },
+      () => {
+        const { onIncommingMessage } = this.props;
+        if (onIncommingMessage) {
+          onIncommingMessage(this.state.unreadMsg);
+        }
+      }
+    );
+  };
+
+  resetUnreadMsg = (e) => {
+    const { isOpen, unreadMsg } = this.state;
+    if (this.node.contains(e.target) && isOpen && unreadMsg > 0) {
+      this.setState({ unreadMsg: 0 });
+    }
   };
 
   onNewMessage = (msg) => {
     const { onNewMessage, scope, customKey } = this.props;
 
     if (onNewMessage) {
-      msg = onNewMessage(msg);
+      msg = onNewMessage(msg, this.state.unreadMsg);
       if (!msg) {
         return;
       }
@@ -28,6 +48,7 @@ export default class Chat extends React.PureComponent {
 
   componentDidMount = () => {
     const { dockStartOpen, docked } = this.props;
+    document.addEventListener("click", this.resetUnreadMsg);
     if (docked && !dockStartOpen) {
       this.setState({
         isOpen: false,
@@ -35,14 +56,19 @@ export default class Chat extends React.PureComponent {
     }
   };
 
+  componentWillUnmount() {
+    document.removeEventListener("click", this.resetUnreadMsg);
+  }
+
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, unreadMsg } = this.state;
     const {
       player,
       scope,
       customKey,
       customClassName,
       docked,
+      hideNotificiationBadge,
 
       filter,
       timeStamp,
@@ -62,9 +88,18 @@ export default class Chat extends React.PureComponent {
             customClassName ? customClassName : "empirica-chat-container"
           } ${docked ? "docked" : "undocked"}`}
         >
-          <div className={`chat ${isOpen ? "open" : ""}`}>
+          <div
+            className={`chat ${isOpen ? "open" : ""}`}
+            ref={(node) => (this.node = node)}
+          >
             {docked && (
-              <HeaderComp {...common} onClick={this.onClick} isOpen={isOpen} />
+              <HeaderComp
+                {...common}
+                onClick={this.onClick}
+                isOpen={isOpen}
+                unreadMsg={unreadMsg}
+                hideNotificiationBadge={hideNotificiationBadge}
+              />
             )}
             {isOpen ? (
               <>
@@ -72,12 +107,15 @@ export default class Chat extends React.PureComponent {
                   {...common}
                   messageComp={MessageComp}
                   filter={filter}
+                  addUnreadMsg={this.addUnreadMsg}
                   {...rest}
                 />
                 <FooterComp
                   {...common}
                   timeStamp={timeStamp}
                   onNewMessage={this.onNewMessage}
+                  resetUnreadMsg={this.resetUnreadMsg}
+                  unreadMsg={this.state.unreadMsg}
                 />
               </>
             ) : (
@@ -98,13 +136,19 @@ Chat.defaultProps = {
   hideAvatar: false,
   hideName: false,
   svgAvatar: false,
-  header: ({ onClick, isOpen }) => (
-    <div className="header">
-      <span className="title">CHAT</span>
-      <span className="close-button" onClick={onClick}>
-        {isOpen ? "-" : "+"}
-      </span>
-    </div>
+  hideNotificiationBadge: false,
+  header: ({ onClick, isOpen, unreadMsg, hideNotificiationBadge }) => (
+    <>
+      <div
+        className="header"
+        data-badge={unreadMsg > 0 && !hideNotificiationBadge ? unreadMsg : null}
+      >
+        <span className="title">CHAT </span>
+        <span className="close-button" onClick={onClick}>
+          {isOpen ? "-" : "+"}
+        </span>
+      </div>
+    </>
   ),
   message: Message,
   footer: Footer,
@@ -119,10 +163,12 @@ Chat.propTypes = {
   dockStartOpen: PropTypes.bool,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
+  hideNotificiationBadge: PropTypes.bool,
   svgAvatar: PropTypes.bool,
   customClassName: PropTypes.string,
 
   onNewMessage: PropTypes.func,
+  onIncommingMessage: PropTypes.func,
   filter: PropTypes.func,
 
   header: PropTypes.elementType.isRequired,
