@@ -187,6 +187,32 @@ This code will make Chat's window will be closed when it appears on the first ti
 
 ```
 
+### Hide the notification badge
+
+Notification badge on incomming message can be hiden. You can add additional prop `hideNotificationBadge`. The default value is `false`.
+
+```jsx
+
+<Chat hideNotificationBadge ... />
+
+```
+
+### Get the number of unread messages
+
+The `onIncommingMessage` callback can be used if you want to get the number of unread message manually.
+
+```jsx
+
+<Chat
+  onIncommingMessage={(unreadMessage) => {
+    // Will log the number of unread message
+    console.log(unreadMessage);
+  }}
+  ...
+/>
+
+```
+
 ## Usage: Chat in Lobby
 
 To use the Chat in the Lobby, you can simply add the `LobbyChat` component of
