@@ -34,7 +34,7 @@ class Messages extends React.PureComponent {
       currentMessages.length > prevMessages.length
     ) {
       if (onIncommingMessage) {
-        onIncommingMessage(currentMessages);
+        onIncommingMessage(currentMessages.splice(prevMessages.length));
       }
 
       this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
