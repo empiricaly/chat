@@ -187,6 +187,22 @@ This code will make Chat's window will be closed when it appears on the first ti
 
 ```
 
+### Get the incoming messages
+
+The `onIncommingMessage` callback can be used if you want to get the incoming messages.
+
+```jsx
+
+<Chat
+  onIncommingMessage={(msgs) => {
+    // Will log the list of messages
+    console.log(msgs);
+  }}
+  ...
+/>
+
+```
+
 ## Usage: Chat in Lobby
 
 To use the Chat in the Lobby, you can simply add the `LobbyChat` component of

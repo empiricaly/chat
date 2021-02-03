@@ -27,12 +27,16 @@ class Messages extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     const { messages: prevMessages } = prevProps;
-    const { messages: currentMessages } = this.props;
+    const { messages: currentMessages, onIncommingMessage } = this.props;
 
     if (
       this.messagesEl.current !== null &&
       currentMessages.length > prevMessages.length
     ) {
+      if (onIncommingMessage) {
+        onIncommingMessage(currentMessages.splice(prevMessages.length));
+      }
+
       this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
     }
   }
@@ -59,6 +63,7 @@ Messages.propTypes = {
   player: PropTypes.object,
   messageComp: PropTypes.elementType,
   filter: PropTypes.func,
+  onIncommingMessage: PropTypes.func,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
   svgAvatar: PropTypes.bool,

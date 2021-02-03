@@ -4,7 +4,6 @@ import Footer from "./Footer";
 import Message from "./Message";
 import Messages from "./Messages";
 import ErrorBoundary from "./ErrorBoundary";
-import { rest } from "lodash";
 
 export default class Chat extends React.PureComponent {
   state = { isOpen: true };
@@ -43,6 +42,7 @@ export default class Chat extends React.PureComponent {
       customKey,
       customClassName,
       docked,
+      onIncommingMessage,
 
       filter,
       timeStamp,
@@ -72,6 +72,7 @@ export default class Chat extends React.PureComponent {
                   {...common}
                   messageComp={MessageComp}
                   filter={filter}
+                  onIncommingMessage={onIncommingMessage}
                   {...rest}
                 />
                 <FooterComp
@@ -98,9 +99,10 @@ Chat.defaultProps = {
   hideAvatar: false,
   hideName: false,
   svgAvatar: false,
+  hideNotificiationBadge: false,
   header: ({ onClick, isOpen }) => (
     <div className="header">
-      <span className="title">CHAT</span>
+      <span className="title">CHAT </span>
       <span className="close-button" onClick={onClick}>
         {isOpen ? "-" : "+"}
       </span>
@@ -123,6 +125,7 @@ Chat.propTypes = {
   customClassName: PropTypes.string,
 
   onNewMessage: PropTypes.func,
+  onIncommingMessage: PropTypes.func,
   filter: PropTypes.func,
 
   header: PropTypes.elementType.isRequired,
