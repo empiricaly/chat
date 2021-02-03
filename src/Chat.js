@@ -16,7 +16,7 @@ export default class Chat extends React.PureComponent {
     const { onNewMessage, scope, customKey } = this.props;
 
     if (onNewMessage) {
-      msg = onNewMessage(msg, this.state.unreadMsg);
+      msg = onNewMessage(msg);
       if (!msg) {
         return;
       }
