@@ -1,6 +1,6 @@
 {
   "name": "@empirica/chat",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "React component of a chat lobby for the Empirica experiment platform.",
   "main": "./build/index.js",
   "scripts": {
