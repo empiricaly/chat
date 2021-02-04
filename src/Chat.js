@@ -42,7 +42,7 @@ export default class Chat extends React.PureComponent {
       customKey,
       customClassName,
       docked,
-      onIncommingMessage,
+      onIncomingMessage,
 
       filter,
       timeStamp,
@@ -72,7 +72,7 @@ export default class Chat extends React.PureComponent {
                   {...common}
                   messageComp={MessageComp}
                   filter={filter}
-                  onIncommingMessage={onIncommingMessage}
+                  onIncomingMessage={onIncomingMessage}
                   {...rest}
                 />
                 <FooterComp
@@ -125,7 +125,7 @@ Chat.propTypes = {
   customClassName: PropTypes.string,
 
   onNewMessage: PropTypes.func,
-  onIncommingMessage: PropTypes.func,
+  onIncomingMessage: PropTypes.func,
   filter: PropTypes.func,
 
   header: PropTypes.elementType.isRequired,

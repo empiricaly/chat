@@ -2,42 +2,55 @@ import PropTypes from "prop-types";
 import React from "react";
 
 function filteredMessages(WrappedComponent) {
-  return class extends React.PureComponent {
+  return class extends React.Component {
     render() {
-      const { scope, customKey, filter, ...rest } = this.props;
+      const { scope, customKey, filter } = this.props;
       let messages = scope.get(customKey) || [];
       if (filter) {
         messages = filter(messages);
       }
 
-      return <WrappedComponent messages={[...messages]} {...rest} />;
+      return <WrappedComponent messages={[...messages]} {...this.props} />;
     }
   };
 }
 
-class Messages extends React.PureComponent {
+class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.messagesEl = React.createRef();
+    this.state = {
+      messageLength: 0,
+    };
   }
 
   componentDidMount() {
     this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
+    this.setState({ messageLength: this.props.messages.length });
   }
 
   componentDidUpdate(prevProps) {
-    const { messages: prevMessages } = prevProps;
-    const { messages: currentMessages, onIncommingMessage } = this.props;
+    const { messageLength } = this.state;
+    const {
+      messages: currentMessages,
+      onIncomingMessage,
+      customKey,
+    } = this.props;
 
     if (
       this.messagesEl.current !== null &&
-      currentMessages.length > prevMessages.length
+      currentMessages.length > messageLength
     ) {
-      if (onIncommingMessage) {
-        onIncommingMessage(currentMessages.splice(prevMessages.length));
-      }
+      this.setState({ messageLength: currentMessages.length }, () => {
+        if (onIncomingMessage) {
+          onIncomingMessage(
+            currentMessages.splice(this.state.messageLength),
+            customKey
+          );
+        }
 
-      this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
+        this.messagesEl.current.scrollTop = this.messagesEl.current.scrollHeight;
+      });
     }
   }
 
@@ -63,10 +76,11 @@ Messages.propTypes = {
   player: PropTypes.object,
   messageComp: PropTypes.elementType,
   filter: PropTypes.func,
-  onIncommingMessage: PropTypes.func,
+  onIncomingMessage: PropTypes.func,
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
   svgAvatar: PropTypes.bool,
+  customKey: PropTypes.string,
 };
 
 export default filteredMessages(Messages);
