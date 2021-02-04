@@ -189,12 +189,12 @@ This code will make Chat's window will be closed when it appears on the first ti
 
 ### Get the incoming messages
 
-The `onIncommingMessage` callback can be used if you want to get the incoming messages.
+The `onIncomingMessage` callback can be used if you want to get the incoming messages.
 
 ```jsx
 
 <Chat
-  onIncommingMessage={(msgs) => {
+  onIncomingMessage={(msgs) => {
     // Will log the list of messages
     console.log(msgs);
   }}
