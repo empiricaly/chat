@@ -33,7 +33,7 @@ export default class Message extends React.Component {
             <img className="avatar" src={msgPlayer.avatar} />
           ) : (
             <div
-              dangerouslySetInnerHTML={{ __html: msgPlayer.avatar }}
+              dangerouslySetInnerHTML={{ __html: msgPlayer.avatar.svg }}
               className="avatar"
             />
           ))}
