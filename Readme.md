@@ -143,15 +143,19 @@ This code will hide the name:
 
 ```
 
-### Use SVG as avatar
+### Use an avatar
 
-If you want to use `svg` for the avatar, you can pass additional props. The default value from the prop is `false`.
+You can set the Player's avatar with the "avatar" attribute on the Player object. The avatar attribute must be an object with either the src field (image URL "http://...") or the svg field (svg string "...") and optionally the alt text fields for accessibility.
+For example:
 
 ```jsx
+player.set({
+   src: "http://example.com/example.jpeg",
+   alt: "An example image"
+ })
+ ```
 
-<Chat svgAvatar ... />
-
-```
+If both src and svg are given, svg takes precedence over src.
 
 ### Custom Styling of the Chat's Root Component
 

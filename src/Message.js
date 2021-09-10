@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { isString } from 'lodash';
+
 
 export default class Message extends React.Component {
   renderTime = (timeStamp) => {
@@ -22,21 +24,33 @@ export default class Message extends React.Component {
   };
 
   render() {
-    const { message, player, hideName, hideAvatar, svgAvatar } = this.props;
+    const { message, player, hideName, hideAvatar, svgAvatar, avatar } = this.props;
     const { player: msgPlayer, text, timeStamp } = message;
     const isSelf = player._id == msgPlayer._id;
+    let avatarImg;
+    const useAvatar = !hideAvatar && (svgAvatar || avatar)
+    if (useAvatar && avatar){
+      if (isString(avatar)){
+        console.warn("Deprecation: avatar should be an object containing a src or svg property")
+        avatarImg = <img className="avatar" alt={''} src={avatar} />
+      }
+      else{
+        const avatarSrc = avatar.svg || avatar.src
+        if (avatar.svg) {
+          avatarImg = <div
+            dangerouslySetInnerHTML={{ __html: avatarSrc }}
+            className="avatar"
+          />
+        } else{
+          avatarImg = <img className="avatar" alt={avatar.alt} src={avatar.src} />
+        }
+      }
+    }
+
 
     return (
       <div className="message">
-        {!hideAvatar &&
-          (!svgAvatar ? (
-            <img className="avatar" src={msgPlayer.avatar} />
-          ) : (
-            <div
-              dangerouslySetInnerHTML={{ __html: msgPlayer.avatar.svg }}
-              className="avatar"
-            />
-          ))}
+        {useAvatar ? avatarImg : ''}
         <div className="text-container">
           {!hideName && this.renderName(isSelf, msgPlayer.name)}
           <div className="text">{text}</div>
@@ -61,4 +75,9 @@ Message.propTypes = {
   hideAvatar: PropTypes.bool,
   hideName: PropTypes.bool,
   svgAvatar: PropTypes.bool,
+  avatar: PropTypes.shape({
+    svg:  PropTypes.string,
+    src:  PropTypes.string,
+    alt:  PropTypes.string,
+  }),
 };
